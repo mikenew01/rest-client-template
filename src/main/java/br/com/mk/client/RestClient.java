@@ -1,52 +1,31 @@
 package br.com.mk.client;
 
-import java.lang.reflect.InvocationTargetException;
+import br.com.mk.core.RestClientHost;
+import br.com.mk.core.RestClientTarget;
+import br.com.mk.core.RestClientTargetImpl;
 
-public class RestClient {
+import java.net.URL;
 
-    private final String host;
+public final class RestClient {
 
-    private RestClient(final String host) {
-        this.host = host;
+    private RestClient() {
     }
 
-    public static RestClient newInstance(final String host) {
-        return new RestClient(host);
+    public static RestClient newClient() {
+        return new RestClient();
     }
 
-    public <T> T getService(final Class<T> service) {
-        try {
-            return ((T) service
-                    .getConstructor(String.class)
-                    .newInstance());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    public RestClientTarget target(final String host) {
+        RestClientTarget restClientTarget = new RestClientTargetImpl();
+        restClientTarget.host(new RestClientHost(host));
+        return restClientTarget;
     }
 
-    public <T> T getService(final Class<T> service, final Class<?>... parameterTypesConstructors) {
-        try {
-            return ((T) service
-                    .getConstructor(parameterTypesConstructors)
-                    .newInstance());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+    public RestClientTarget target(final URL url) {
+        return target(url.getHost());
+    }
 
-        return null;
+    public RestClientTarget target(final RestClientHost host) {
+        return target(host.getUrl());
     }
 }
