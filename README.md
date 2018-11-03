@@ -39,7 +39,7 @@ Add the rest-client-template to the project you want to run your rest request.
 
 ### Plugins
 
-Dillinger is currently extended with the following plugins. Instructions on how to use them in your own application are linked below.
+Rest-client-template is currently extended with the following plugins. 
 
 | Plugin | README |
 | ------ | ------ |
